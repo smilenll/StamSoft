@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlayerStatsTable extends Migration
+class AddEventIdToStats extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePlayerStatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('player_stats', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('stats', function(Blueprint $table) {
+            $table->integer('event_id')->nullable()->after('name')->unsigned();
+            $table->foreign('event_id')->references('id')->on('events');
         });
     }
 
@@ -26,6 +26,8 @@ class CreatePlayerStatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('player_stats');
+        Schema::table('stats', function (Blueprint $table) {
+            $table->dropColumn('event_id');
+        });
     }
 }

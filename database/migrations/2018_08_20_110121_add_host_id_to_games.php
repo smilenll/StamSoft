@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGamesTable extends Migration
+class AddHostIdToGames extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateGamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('games', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('hostScore');
-            $table->integer('guestScore');
-            $table->string('location');
-            $table->timestamps();
+        Schema::table('games', function(Blueprint $table) {
+            $table->integer('host_id')->nullable()->after('id')->unsigned();
+            $table->foreign('host_id')->references('id')->on('teams');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateGamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('games');
+        Schema::table('games', function (Blueprint $table) {
+            $table->dropColumn('host_id');
+        });
     }
 }
