@@ -14,7 +14,7 @@ class AddEventIdToStats extends Migration
     public function up()
     {
         Schema::table('stats', function(Blueprint $table) {
-            $table->integer('event_id')->nullable()->after('name')->unsigned();
+            $table->integer('event_id')->nullable()->after('id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events');
         });
     }

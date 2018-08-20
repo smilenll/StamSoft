@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'AdminController@getIndex');
+Route::resource('admin/seasons', 'SeasonController',['except' => ['create']]);
+Route::resource('admin/leagues', 'LeagueController',['except' => ['create']]);

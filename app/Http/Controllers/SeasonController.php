@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Season;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class SeasonController extends Controller
 {
@@ -13,17 +15,8 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $seasons=Season::all();
+        return view('admin/seasons/index')->withSeasons($seasons);
     }
 
     /**
@@ -34,7 +27,17 @@ class SeasonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'season' => 'required|max:255'
+        ]);
+        $season = new Season;
+        $season->season = $request->season;
+
+        $season->save();
+
+        Session::flash('success', 'New category has been created');
+
+        return redirect()->route('seasons.index');
     }
 
     /**
@@ -56,7 +59,9 @@ class SeasonController extends Controller
      */
     public function edit($id)
     {
-        //
+        $season = Season::find($id);
+
+        return view('admin.seasons.edit')->withSeason($season);
     }
 
     /**
@@ -68,8 +73,19 @@ class SeasonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $season = Season::find($id);
+
+        $this->validate($request, ['season' => 'required|max:255']);
+
+        $season->season = $request->season;
+        $season->save();
+
+        Session::flash('success', 'Successfully save new category');
+
+        return redirect()->route('seasons.index', $season->id);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -79,6 +95,13 @@ class SeasonController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $season = Season::find($id);
+
+        $season->delete();
+
+        Session::flash('success', 'The post was successful deleted.');
+
+        return redirect()->route('seasons.index');
     }
 }
