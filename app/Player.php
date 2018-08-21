@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
 {
-    public function team(){
-        $this->belongsTo('App\Team');
-    }
     public function Stats(){
-        $this->belongsToMeny('App\Stat');
+        $this->belongsToMany('App\Stat');
     }
+    public function teams(){
+        $this->belongsToMany('App\Team');
+    }
+
 }

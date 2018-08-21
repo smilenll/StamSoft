@@ -19,5 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@getIndex');
+//SEASONS
 Route::resource('admin/seasons', 'SeasonController',['except' => ['create']]);
+//LEAGUES
 Route::resource('admin/leagues', 'LeagueController',['except' => ['create']]);
+//TEAMS
+Route::resource('admin/teams', 'TeamController',['except' => ['create']]);
+//PLAYERS
+Route::resource('admin/players', 'PLayerController',['except' => ['create']]);

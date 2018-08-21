@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Player;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PlayerController extends Controller
 {
@@ -13,7 +15,8 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        //
+        $players=Player::all();
+        return view('admin/players/index')->withPlayers($players);
     }
 
     /**
@@ -34,7 +37,20 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255'
+        ]);
+        $player = new Player;
+        $player->name = $request->name;
+        $player->picture = $request->picture;
+        $player->nationality = $request->nationality;
+        $player->position = $request->position;
+
+        $player->save();
+
+        Session::flash('success', 'New category has been created');
+
+        return redirect()->route('players.index');
     }
 
     /**

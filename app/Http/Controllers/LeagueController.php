@@ -16,8 +16,8 @@ class LeagueController extends Controller
      */
     public function index()
     {
-        $leagues=League::all();
-        $seasons=Season::all();
+        $leagues = League::all();
+        $seasons = Season::all();
         return view('admin/leagues/index')->withLeagues($leagues)->withSeasons($seasons);
     }
 
@@ -34,7 +34,7 @@ class LeagueController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,7 +59,7 @@ class LeagueController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -70,19 +70,17 @@ class LeagueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $league = League::find($id);
         $seasons = Season::all();
-        $seasonsList=[];
-        foreach ($seasons as $season)
-        {
-            $seasonsList[$season->id]= $season->name;
+        $seasonsList = [];
+        foreach ($seasons as $season) {
+            $seasonsList[$season->id] = $season->season;
         }
-
         return view('admin.leagues.edit')->withLeague($league)
             ->withSeasonsList($seasonsList);
     }
@@ -90,23 +88,42 @@ class LeagueController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $league = League::find($id);
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'season_id' => 'required'
+        ]);
+        $league->name = $request->name;
+        $league->season_id = $request->season_id;
+
+        $league->save();
+
+        Session::flash('success', 'Successfully UPDATED');
+
+        return redirect()->route('leagues.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $league = League::find($id);
+        $league->delete();
+
+        Session::flash('success', 'The league was successful deleted.');
+
+        return redirect()->route('leagues.index');
     }
 }

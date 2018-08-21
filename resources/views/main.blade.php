@@ -8,7 +8,9 @@
     <title>Smilen US</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {!! Html::style('css/select2.min.css')  !!}
+</head>
 
 <body>
 
@@ -29,12 +31,12 @@
                         Add
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Season</a>
-                        <a class="dropdown-item" href="#">League</a>
-                        <a class="dropdown-item" href="#">Team</a>
-                        <a class="dropdown-item" href="#">Player</a>
-                        <a class="dropdown-item" href="#">Event</a>
-                        <a class="dropdown-item" href="#">Game</a>
+                        <a class="dropdown-item" href="/admin/seasons">Season</a>
+                        <a class="dropdown-item" href="/admin/leagues">League</a>
+                        <a class="dropdown-item" href="/admin/teams">Team</a>
+                        <a class="dropdown-item" href="/admin/players">Player</a>
+                        <a class="dropdown-item" href="/admin/events">Event</a>
+                        <a class="dropdown-item" href="/admin/games">Game</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -47,6 +49,23 @@
             </form>
         </div>
     </nav>
+    @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            <strong>Success:</strong> {{Session::get('success')}}
+        </div>
+    @endif
+
+    @if (count($errors)>0)
+        <div class="alert alert-danger" role="alert">
+            <strong>Errors:</strong>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+    @endif
     <div class="row">
         @yield('content')
     </div>
@@ -54,5 +73,11 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{!! Html::script('js/select2.min.js')  !!}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>
 </body>
 </html>

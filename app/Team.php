@@ -10,6 +10,6 @@ class Team extends Model
         $this->belongsTo('App\League');
     }
     public function players() {
-        $this->hasMany('App\Player');
+        $this->belongsToMany('App\Player');
     }
 }
