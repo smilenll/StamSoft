@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Game;
+use App\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class EventController extends Controller
+class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +16,18 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events=Event::all();
-        return view('admin/events/index')->withEvents($events);
+        $games=Game::all();
+        $teams=Team::all();
+        return view('admin/games/index')
+            ->withGames($games)
+            ->withTeams($teams);
+
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -37,28 +42,42 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
-        'name' => 'required|max:255'
-    ]);
-        $event = new Event;
-        $event->name = $request->name;
+            'host_id' => 'required|integer',
+            'guest_id' => 'required|integer',
+            'location' => 'required|max:255',
+        ]);
+        $game = new Game;
 
-        $event->save();
+        $game->date = $request->date;
+        $game->host_id = $request->host_id;
+        $game->hostScore = 0;
+        $game->guestScore = 0;
+        $game->guest_id = $request->guest_id;
+        $game->location = $request->location;
 
-        Session::flash('success', 'New event has been created');
+        $game->save();
 
-        return redirect()->route('events.index');
+        Session::flash('success', 'New game has been created');
+
+        return redirect()->route('games.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return void
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $game=Game::find($id);
+        $team=Team::all();
 
+        return view('admin.games.show')
+            ->withTeam($team)
+            ->withGame($game);
     }
 
     /**
@@ -69,9 +88,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::find($id);
-
-        return view('admin.events.edit')->withEvent($event);
+        //
     }
 
     /**
@@ -83,16 +100,7 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $event = Event::find($id);
-
-        $this->validate($request, ['name' => 'required|max:255']);
-
-        $event->name = $request->name;
-        $event->save();
-
-        Session::flash('success', 'Successfully updated');
-
-        return redirect()->route('events.index');
+        //
     }
 
     /**
@@ -103,11 +111,6 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
-        $event->delete();
-
-        Session::flash('success', 'The event was successful deleted.');
-
-        return redirect()->route('events.index');
+        //
     }
 }

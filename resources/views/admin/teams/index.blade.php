@@ -2,7 +2,7 @@
 @section('content')
 
     <div class="col-md-8">
-        <h1>Categories</h1>
+        <h1>Teams</h1>
         <table class="table">
             <thead>
             <tr>
@@ -19,7 +19,7 @@
             @foreach($teams as $team)
                 <tr>
                     <th>{{$team->id}}</th>
-                    <td><a href="">{{$team->name}}</a></td>
+                    <td><a href="{{route('teams.show', $team->id)}}">{{$team->name}}</a></td>
                     <td><a href="">{{$team->league_id}}</a></td>
                     <td><a href="">{{$team->logo}}</a></td>
                     <td><a href="">{{$team->picture}}</a></td>
@@ -49,6 +49,12 @@
         {{Form::label('picture', 'Picture:')}}
         {{Form::text('picture', null, ['class' => 'form-control'])}}
         <br>
+        {{Form::label('players','Players:')}}
+        <select class="form-control js-example-basic-multiple" name="players[]" multiple="multiple">
+            @foreach($players as $player)
+                <option value="{{$player->id}}">{{$player->name}}</option>
+            @endforeach
+        </select>
         {{Form::label('league_id','League:')}}
         <select class="form-control" name="league_id">
             @foreach($leagues as $league)

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Stat extends Model
 {
     public function events() {
-        $this->hasMany('App\Event');
+        return $this->hasMany('App\Event');
     }
     public function games() {
-        $this->belongsToMany('App\Game');
+        return $this->belongsToMany('App\Game');
     }
     public function players() {
-        $this->belongsToMany('App\Player');
+        return $this->belongsToMany('App\Player');
     }
 }

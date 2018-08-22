@@ -2,7 +2,7 @@
 @section('content')
 
         <div class="col-md-8">
-            <h1>Categories</h1>
+            <h1>Leagues</h1>
             <table class="table">
                 <thead>
                 <tr>
@@ -46,6 +46,8 @@
                 @endforeach
             </select>
             <br>
+
+
             {{Form::submit('create new league', ['class' => 'btn btn-success brn-blog'])}}
             {!! Form::close() !!}
         </div>

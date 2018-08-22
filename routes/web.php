@@ -26,4 +26,8 @@ Route::resource('admin/leagues', 'LeagueController',['except' => ['create']]);
 //TEAMS
 Route::resource('admin/teams', 'TeamController',['except' => ['create']]);
 //PLAYERS
-Route::resource('admin/players', 'PLayerController',['except' => ['create']]);
+Route::resource('admin/players', 'PlayerController',['except' => ['create']]);
+//EVENTS
+Route::resource('admin/events', 'EventController',['except' => ['create']]);
+//GAMES
+Route::resource('admin/games', 'GameController',['except' => ['create']]);

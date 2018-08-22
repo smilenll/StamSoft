@@ -51,7 +51,7 @@ class LeagueController extends Controller
 
         $league->save();
 
-        Session::flash('success', 'New category has been created');
+        Session::flash('success', 'New league has been created');
 
         return redirect()->route('leagues.index');
     }

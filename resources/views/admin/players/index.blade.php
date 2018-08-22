@@ -2,7 +2,7 @@
 @section('content')
 
         <div class="col-md-8">
-            <h1>Categories</h1>
+            <h1>Players</h1>
             <table class="table">
                 <thead>
                 <tr>
@@ -55,7 +55,7 @@
             {{Form::text('position', null, ['class' => 'form-control'])}}
             <br>
 
-            {{Form::submit('create new player', ['class' => 'btn btn-primary brn-blog'])}}
+            {{Form::submit('create new player', ['class' => 'btn btn-success brn-blog'])}}
             {!! Form::close() !!}
         </div>
 

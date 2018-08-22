@@ -19,7 +19,11 @@ class TeamController extends Controller
     {
         $leagues = League::all();
         $teams = Team::all();
-        return view('admin/teams/index')->withTeams($teams)->withLeagues($leagues);
+        $players = Player::all();
+        return view('admin/teams/index')
+            ->withTeams($teams)
+            ->withLeagues($leagues)
+            ->withPlayers($players);
     }
 
     /**
@@ -44,8 +48,7 @@ class TeamController extends Controller
             'name' => 'required|max:255',
             'league_id' => 'required|integer',
         ]);
-        $team = new Team();
-
+        $team = new Team;
         $team->name = $request->name;
         $team->league_id = $request->league_id;
         $team->logo = $request->logo;
@@ -53,7 +56,7 @@ class TeamController extends Controller
 
         $team->save();
 
-        $team->players()->sync($request->players, true);
+        $team->players()->sync($request->players, false);
 
         Session::flash('success', 'New TEAM has been created');
 
@@ -68,7 +71,9 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        //
+        $team=Team::find($id);
+
+        return view('admin.teams.show')->withTeam($team);
     }
 
     /**
@@ -87,11 +92,15 @@ class TeamController extends Controller
             $leaguesList[$league->id] = $league->name;
         }
         $players = Player::all();
+        $playersList = [];
+        foreach ($players as $player) {
+            $playersList[$player->id] = $player->name;
+        }
 
         return view('admin.teams.edit')
             ->withTeam($team)
             ->withLeaguesList($leaguesList)
-            ->withPlayers($players);
+            ->withPlayers($playersList);
     }
 
     /**
@@ -120,7 +129,7 @@ class TeamController extends Controller
         } else {
             $team->players()->sync([]);
         }
-        Session::flash('success', 'This post was successful saved');
+        Session::flash('success', 'This team was successful updated');
 
         return redirect()->route('teams.index', $team->id);
     }
@@ -132,6 +141,13 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $team = Team::find($id);
+        $team-> players()->detach();
+        $team->delete();
+
+
+        Session::flash('success', 'The post was successful deleted.');
+
+        return redirect()->route('teams.index');
     }
 }

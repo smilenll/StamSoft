@@ -14,7 +14,7 @@ class AddHostIdToGames extends Migration
     public function up()
     {
         Schema::table('games', function(Blueprint $table) {
-            $table->integer('host_id')->nullable()->after('id')->unsigned();
+            $table->integer('host_id')->nullable()->after('date')->unsigned();
             $table->foreign('host_id')->references('id')->on('teams');
         });
     }

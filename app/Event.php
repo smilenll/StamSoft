@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     public function playerStat(){
-        $this->belongsTo('App\PlayerStat');
+        return $this->belongsTo('App\PlayerStat');
     }
 }

@@ -35,7 +35,7 @@ class SeasonController extends Controller
 
         $season->save();
 
-        Session::flash('success', 'New category has been created');
+        Session::flash('success', 'New event has been created');
 
         return redirect()->route('seasons.index');
     }
@@ -80,9 +80,9 @@ class SeasonController extends Controller
         $season->season = $request->season;
         $season->save();
 
-        Session::flash('success', 'Successfully save new category');
+        Session::flash('success', 'Successfully updated');
 
-        return redirect()->route('seasons.index', $season->id);
+        return redirect()->route('seasons.index');
     }
 
 
@@ -95,12 +95,10 @@ class SeasonController extends Controller
      */
     public function destroy($id)
     {
-
         $season = Season::find($id);
-
         $season->delete();
 
-        Session::flash('success', 'The post was successful deleted.');
+        Session::flash('success', 'The season was successful deleted.');
 
         return redirect()->route('seasons.index');
     }

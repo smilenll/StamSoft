@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class League extends Model
 {
     public function season() {
-        $this->belongsTo('App\Season');
+        return $this->belongsTo('App\Season');
     }
     public function teams() {
-        $this->hasMany('App\Team');
+        return $this->hasMany('App\Team');
     }
 }

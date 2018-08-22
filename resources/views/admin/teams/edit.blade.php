@@ -17,12 +17,7 @@
         {{Form::text('picture',null,['class' => 'form-control'])}}
 
         {{Form::label('players','Players:')}}
-        <select class="form-control js-example-basic-multiple" name="players[]" multiple="multiple">
-            @foreach($players as $player)
-                <option value="{{$player->id}}">{{$player->name}}</option>
-            @endforeach
-        </select>
-
+        {{Form::select('players[]',$players, null, ['class'=>'form-control js-example-basic-multiple  ','multiple'=>'multiple'])}}
 
         {{Form::submit('save Changes',['class' => 'btn btn-success btn-h1'])}}
         {!! Form::close() !!}
