@@ -15,4 +15,14 @@ class Stat extends Model
     public function players() {
         return $this->belongsToMany('App\Player');
     }
+
+    public function playerId() {
+        return $this->belongsTo('App\Player');
+    }
+    public function teamId() {
+        return $this->belongsTo('App\Team');
+    }
+    public function gameId() {
+        return $this->belongsTo('App\Game');
+    }
 }

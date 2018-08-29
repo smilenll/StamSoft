@@ -25,16 +25,13 @@
                     <td><a href="">{{$team->picture}}</a></td>
                     <th><a href="{{route('teams.edit', $team->id)}}" class="btn btn-primary">Edit</a></th>
                     <th>
-                        {!! Form::open(['route' => ['teams.destroy', $team->id],'method' => 'DELETE']) !!}
+                        {!! Form::open(['route' => ['teams.destroy', $team->id],'method' => 'DELETE','class'=>'delete']) !!}
                         {!! Form::submit('Delete',['class' => 'btn btn-danger ']) !!}
                         {!! Form::close() !!}
                     </th>
-
-
                 </tr>
             </tbody>
             @endforeach
-
         </table>
     </div>
     <div class="col-md-3">

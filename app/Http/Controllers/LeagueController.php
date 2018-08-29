@@ -39,19 +39,23 @@ class LeagueController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $this->validate($request, [
+                'league' => 'required|max:255',
+                'season_id' => 'required|integer',
+            ]);
+            $league = new League();
 
-        $this->validate($request, [
-            'league' => 'required|max:255',
-            'season_id' => 'required|integer',
-        ]);
-        $league = new League();
+            $league->name = $request->league;
+            $league->season_id = $request->season_id;
 
-        $league->name = $request->league;
-        $league->season_id = $request->season_id;
+            $league->save();
 
-        $league->save();
+            $this->setSession('alert-success', 'New league has been created');
 
-        Session::flash('success', 'New league has been created');
+        } catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
 
         return redirect()->route('leagues.index');
     }
@@ -94,19 +98,23 @@ class LeagueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $league = League::find($id);
+        try {
+            $league = League::find($id);
 
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'season_id' => 'required'
-        ]);
-        $league->name = $request->name;
-        $league->season_id = $request->season_id;
+            $this->validate($request, [
+                'name' => 'required|max:255',
+                'season_id' => 'required'
+            ]);
+            $league->name = $request->name;
+            $league->season_id = $request->season_id;
 
-        $league->save();
+            $league->save();
 
-        Session::flash('success', 'Successfully UPDATED');
+            $this->setSession('success', 'Successfully UPDATED');
 
+        } catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
         return redirect()->route('leagues.index');
 
     }

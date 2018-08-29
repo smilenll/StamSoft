@@ -15,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events=Event::all();
+        $events = Event::all();
         return view('admin/events/index')->withEvents($events);
     }
 
@@ -32,21 +32,25 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-        'name' => 'required|max:255'
-    ]);
-        $event = new Event;
-        $event->name = $request->name;
 
-        $event->save();
+        try {
+            $this->validate($request, [
+                'name' => 'required|max:255'
+            ]);
+            $event = new Event;
+            $event->name = $request->name;
 
-        Session::flash('success', 'New event has been created');
+            $event->save();
+            $this->setSession('success', 'New event has been created');
 
+        } catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
         return redirect()->route('events.index');
     }
 
@@ -64,7 +68,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -77,28 +81,35 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $event = Event::find($id);
+        try{
+            $event = Event::find($id);
 
-        $this->validate($request, ['name' => 'required|max:255']);
+            $this->validate($request, ['name' => 'required|max:255']);
 
-        $event->name = $request->name;
-        $event->save();
+            $event->name = $request->name;
+            $event->save();
 
-        Session::flash('success', 'Successfully updated');
+            $this->setSession('success', 'Successfully updated');
 
-        return redirect()->route('events.index');
+            return redirect()->route('events.index');
+        }
+
+    catch(\Exception $e) {
+        $this->setSession('alert-danger', $e->getMessage());
+    }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

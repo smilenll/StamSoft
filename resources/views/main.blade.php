@@ -49,10 +49,8 @@
             </form>
         </div>
     </nav>
-    @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            <strong>Success:</strong> {{Session::get('success')}}
-        </div>
+    @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
     @endif
 
     @if (count($errors)>0)
@@ -74,10 +72,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {!! Html::script('js/select2.min.js')  !!}
-
 <script type="text/javascript">
     $(document).ready(function () {
         $('.js-example-basic-multiple').select2();
+    });
+</script>
+<script>
+    $(".delete").on("submit", function(){
+        return confirm("Do you want to delete this item?");
     });
 </script>
 

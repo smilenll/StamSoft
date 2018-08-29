@@ -31,3 +31,5 @@ Route::resource('admin/players', 'PlayerController',['except' => ['create']]);
 Route::resource('admin/events', 'EventController',['except' => ['create']]);
 //GAMES
 Route::resource('admin/games', 'GameController',['except' => ['create']]);
+//STATS
+Route::resource('admin/stats', 'StatController',['except' => ['create']]);

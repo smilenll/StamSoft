@@ -21,7 +21,7 @@
                         <td><a href="">{{$league->season_id}}</a></td>
                         <th><a href="{{route('leagues.edit', $league->id)}}" class="btn btn-primary">Edit</a></th>
                         <th>
-                            {!! Form::open(['route' => ['leagues.destroy', $league->id],'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['leagues.destroy', $league->id],'method' => 'DELETE','class'=>'delete']) !!}
                             {!! Form::submit('Delete',['class' => 'btn btn-danger ']) !!}
                             {!! Form::close() !!}
                         </th>
@@ -39,7 +39,7 @@
             {{Form::label('league', 'Name:')}}
             {{Form::text('league', null, ['class' => 'form-control'])}}
             <br>
-            {{Form::label('season_id','Category:')}}
+            {{Form::label('season_id','Season:')}}
             <select class="form-control" name="season_id">
                 @foreach($seasons as $season)
                     <option value="{{$season->id}}">{{$season->season}}</option>

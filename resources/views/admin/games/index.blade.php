@@ -13,19 +13,24 @@
                 <th>Guest</th>
                 <th>Location</th>
                 <th></th>
+                <th></th>
 
             </tr>
             </thead>
             <tbody>
+
             @foreach($games as $game)
                 <tr>
+
                     <th>{{$game->id}}</th>
                     <td><a href="">DATE</a></td>
-                    <td><a href="">{{$game->host_id}}</a></td>
+                    <td><a href="">{{$teams[$game->host_id-1]['name']}}</a></td>
                     <td><a href="">{{$game->hostScore}} - {{$game->guestScore}}</a></td>
-                    <td><a href="">{{$game->guest_id}}</a></td>
+                    <td><a href="">{{$teams[$game->guest_id-1]['name']}}</a></td>
                     <td><a href="">{{$game->location}}</a></td>
                     <th><a href="{{route('games.show', $game->id)}}" class="btn btn-primary">Details</a></th>
+                    <th><a href="{{route('stats.show', $game->id)}}" class="btn btn-warning">add Stats</a></th>
+
 
 
                 </tr>
@@ -58,7 +63,7 @@
 
 
 
-        {{Form::submit('create new Game', ['class' => 'btn btn-primary brn-blog'])}}
+        {{Form::submit('create new Game', ['class' => 'btn btn-success brn-blog'])}}
         {!! Form::close() !!}
     </div>
 

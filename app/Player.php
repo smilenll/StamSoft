@@ -13,4 +13,9 @@ class Player extends Model
         return $this->belongsToMany('App\Team');
     }
 
+    public function playerIdInStats()
+    {
+        return $this->hasMany('App\Stat');
+    }
+
 }

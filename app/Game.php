@@ -10,9 +10,14 @@ class Game extends Model
         return $this->belongsToMany('App\Stat');
     }
     public function hostTeam() {
-        return $this->hasMany('App\Team');
+        return $this->hasMany('App\Team', 'id', 'host_id')->first();
     }
     public function guestTeam() {
         return $this->hasMany('App\Team');
+    }
+
+    public function gameIdInStats()
+    {
+        return $this->hasMany('App\Stat');
     }
 }

@@ -37,18 +37,23 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255'
-        ]);
-        $player = new Player;
-        $player->name = $request->name;
-        $player->picture = $request->picture;
-        $player->nationality = $request->nationality;
-        $player->position = $request->position;
+        try {
+            $this->validate($request, [
+                'name' => 'required|max:255'
+            ]);
+            $player = new Player;
+            $player->name = $request->name;
+            $player->picture = $request->picture;
+            $player->nationality = $request->nationality;
+            $player->position = $request->position;
 
-        $player->save();
+            $player->save();
 
-        Session::flash('success', 'New category has been created');
+            $this->setSession('success', 'New category has been created');
+        } catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
+
 
         return redirect()->route('players.index');
     }
@@ -88,20 +93,25 @@ class PlayerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $player = Player::find($id);
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'position' => 'required|max:255',
-            'nationality' => 'required|max:255',
-        ]);
-        $player->name = $request->name;
-        $player->position = $request->position;
-        $player->nationality = $request->nationality;
-        $player->picture = $request->picture;
-        $player->save();
 
-        Session::flash('success', 'This Player was successful updated');
+        try {
+            $player = Player::find($id);
+            $this->validate($request, [
+                'name' => 'required|max:255',
+                'position' => 'required|max:255',
+                'nationality' => 'required|max:255',
+            ]);
+            $player->name = $request->name;
+            $player->position = $request->position;
+            $player->nationality = $request->nationality;
+            $player->picture = $request->picture;
+            $player->save();
 
+            $this->setSession('success', 'This Player was successful updated');
+
+        } catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
         return redirect()->route('players.index');
     }
 
@@ -114,7 +124,7 @@ class PlayerController extends Controller
     public function destroy($id)
     {
         $player = Player::find($id);
-        $player-> teams()->detach();
+        $player->teams()->detach();
         $player->delete();
 
         Session::flash('success', 'The post was successful deleted.');

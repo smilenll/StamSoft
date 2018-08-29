@@ -19,12 +19,10 @@
                         <td><a href="">{{$season->season}}</a></td>
                         <th><a href="{{route('seasons.edit', $season->id)}}" class="btn btn-primary">Edit</a></th>
                         <th>
-                            {!! Form::open(['route' => ['seasons.destroy', $season->id],'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['seasons.destroy', $season->id],'method' => 'DELETE', 'class'=>'delete']) !!}
                             {!! Form::submit('Delete',['class' => 'btn btn-danger ']) !!}
                             {!! Form::close() !!}
                         </th>
-
-
                     </tr>
                 </tbody>
                 @endforeach

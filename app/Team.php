@@ -12,4 +12,9 @@ class Team extends Model
     public function players() {
         return $this->belongsToMany('App\Player');
     }
+
+    public function teamIdInStats()
+    {
+        return $this->hasMany('App\Stat');
+    }
 }

@@ -44,21 +44,27 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'league_id' => 'required|integer',
-        ]);
-        $team = new Team;
-        $team->name = $request->name;
-        $team->league_id = $request->league_id;
-        $team->logo = $request->logo;
-        $team->picture = $request->picture;
+        try {
+            $this->validate($request, [
+                'name' => 'required|max:255',
+                'league_id' => 'required|integer',
+            ]);
+            $team = new Team;
+            $team->name = $request->name;
+            $team->league_id = $request->league_id;
+            $team->logo = $request->logo;
+            $team->picture = $request->picture;
 
-        $team->save();
+            $team->save();
 
-        $team->players()->sync($request->players, false);
+            $team->players()->sync($request->players, false);
 
-        Session::flash('success', 'New TEAM has been created');
+            $this->setSession('alert-success', 'New TEAM has been created');
+
+
+        }catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
+        }
 
         return redirect()->route('teams.index');
     }
@@ -112,25 +118,29 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $team=Team::find($id);
-        $this->validate($request, array(
-            'name' => 'required|max:255',
-            'league_id' => 'required|integer'
-        ));
+        try {
+            $team=Team::find($id);
+            $this->validate($request, array(
+                'name' => 'required|max:255',
+                'league_id' => 'required|integer'
+            ));
 
-        $team->name=$request->name;
-        $team->league_id=$request->league_id;
-        $team->logo=$request->logo;
-        $team->picture=$request->picture;
-        $team->save();
+            $team->name=$request->name;
+            $team->league_id=$request->league_id;
+            $team->logo=$request->logo;
+            $team->picture=$request->picture;
+            $team->save();
 
-        if(isset($request->players)) {
-            $team->players()->sync($request->players);
-        } else {
-            $team->players()->sync([]);
+            if(isset($request->players)) {
+                $team->players()->sync($request->players);
+            } else {
+                $team->players()->sync([]);
+            }
+            $this->setSession('alert-success', 'This team was successful updated');
+
+        }catch (\Exception $e) {
+            $this->setSession('alert-danger', $e->getMessage());
         }
-        Session::flash('success', 'This team was successful updated');
-
         return redirect()->route('teams.index', $team->id);
     }
     /**
