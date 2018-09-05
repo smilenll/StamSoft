@@ -2,7 +2,6 @@
 @section('content')
 
     <div class="col-md-8">
-
         <div class="row">
             <div class="col-md-6">
                 <h3>{{$teams[$game->host_id-1]['name']}}</h3>
@@ -19,8 +18,9 @@
                         <option value="{{$player->id}}">{{$player->name}}</option>
                     @endforeach
                 </select>
-                <input type="hidden" id="custId" name="team_id" value="{{$teams[$game->host_id-1]['id']}}">
-                <input type="hidden" id="custId" name="game_id" value="{{$teams[$game->host_id-1]['id']}}">
+
+                <input type="hidden" id="custId" name="team_id" value="{{$game['host_id']}}">
+                <input type="hidden" id="custId" name="game_id" value="{{$game['id']}}">
                 <Br>
                 {{Form::submit('Add Host event', ['class' => 'btn btn-success brn-blog'])}}
                 {!! Form::close() !!}
@@ -40,8 +40,8 @@
                         <option value="{{$player->id}}">{{$player->name}}</option>
                     @endforeach
                 </select>
-                <input type="hidden" id="custId" name="team_id" value="{{$teams[$game->host_id-1]['id']}}">
-                <input type="hidden" id="custId" name="game_id" value="{{$teams[$game->host_id-1]['id']}}">
+                <input type="hidden" id="custId" name="team_id" value="{{$game['guest_id']}}">
+                <input type="hidden" id="custId" name="game_id" value="{{$game['id']}}">
                 <Br>
                 {{Form::submit('Add Host event', ['class' => 'btn btn-success brn-blog'])}}
                 {!! Form::close() !!}
@@ -62,19 +62,12 @@
             </thead>
             <tbody>
             @foreach($stats as $stat)
-                @if($stat->team_id-1 === 2 or 1)
+                @if($stat['team_id'] === $game['host_id'] or $stat['team_id'] === $game['guest_id'])
                     <tr>
                         <td>{{$stat->id}}</td>
-                        <td>{{$teams[$stat->team_id-1]['name']}} {{$stat->team_id-1}}</td>
+                        <td>{{$teams[$stat->team_id-1]['name']}}</td>
                         <td>{{$players[$stat->player_id-1]['name']}}</td>
                         <td>{{$events[$stat->event_id-1]['name']}}</td>
-                    </tr>
-                @else
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                 @endif
             @endforeach

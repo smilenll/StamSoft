@@ -10,7 +10,9 @@ class Team extends Model
         return $this->belongsTo('App\League');
     }
     public function players() {
-        return $this->belongsToMany('App\Player');
+        return
+            $this->belongsToMany('App\Player', 'player_team', 'team_id', 'id')
+                 ->get();
     }
 
     public function teamIdInStats()

@@ -16,6 +16,8 @@ class LeagueController extends Controller
      */
     public function index()
     {
+        $xxx = new League();
+        $xxx->season();
         $leagues = League::all();
         $seasons = Season::all();
         return view('admin/leagues/index')->withLeagues($leagues)->withSeasons($seasons);

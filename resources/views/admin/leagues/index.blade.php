@@ -14,6 +14,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 @foreach($leagues as $league)
                     <tr>
                         <th>{{$league->id}}</th>
@@ -25,8 +26,6 @@
                             {!! Form::submit('Delete',['class' => 'btn btn-danger ']) !!}
                             {!! Form::close() !!}
                         </th>
-
-
                     </tr>
                 </tbody>
                 @endforeach

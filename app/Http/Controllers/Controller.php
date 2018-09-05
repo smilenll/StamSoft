@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -16,5 +17,14 @@ class Controller extends BaseController
     {
         Session::flash('message', $massage);
         Session::flash('alert-class', $type);
+    }
+    public function filterGame($request,$query)
+    {
+        if($hostId = $request->get('host')){
+            return $games = $query::where('host_id', $hostId)->get();
+        }
+        if($guestId = $request->get('guest')){
+           return $games= $query::where('guest_id',$guestId)->get();
+        }
     }
 }
